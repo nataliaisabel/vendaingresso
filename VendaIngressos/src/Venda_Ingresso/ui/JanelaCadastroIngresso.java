@@ -6,6 +6,7 @@
 package Venda_Ingresso.ui;
 
 import java.time.LocalDateTime;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -13,11 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 
 import Venda_Ingresso.entities.Ingresso;
 import Venda_Ingresso.enums.SetorEnum;
+import Venda_Ingresso.exceptions.IngressoInvalidoException;
+import Venda_Ingresso.exceptions.NomeInvalidoException;
+import Venda_Ingresso.exceptions.QtdInvalidaException;
+import Venda_Ingresso.exceptions.SetorEsgotadoException;
 import Venda_Ingresso.services.GerenciadorIngresso;
 
 /**
@@ -111,7 +115,7 @@ public class JanelaCadastroIngresso extends JDialog {
             cbxSetores.getSelectedItem().toString().toUpperCase()
         );
 
-        ingresso.setSetor(setorEnum.name());
+        ingresso.setSetor(setorEnum);
 
         // tratar erro de número
         int quantidade;
@@ -145,7 +149,13 @@ public class JanelaCadastroIngresso extends JDialog {
                 limpar();
                 JOptionPane.showMessageDialog(null, "Ingresso comprado com sucesso!");
             }
-        } catch (Exception e) {
+        } catch (IngressoInvalidoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (NomeInvalidoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (QtdInvalidaException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } catch (SetorEsgotadoException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
