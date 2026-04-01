@@ -8,6 +8,7 @@ package Venda_Ingresso.services;
 import java.util.ArrayList;
 
 import Venda_Ingresso.entities.Ingresso;
+import Venda_Ingresso.enums.SetorEnum;
 import Venda_Ingresso.exceptions.*;
 
 /**
@@ -26,9 +27,9 @@ public class GerenciadorIngresso {
         carregarDados();
     }
     
-    public boolean comprarIngresso(Ingresso ingresso) throws IngressoInvalidoException, NomeInvalidoException, QtdInvalidaException {
+    public boolean comprarIngresso(Ingresso ingresso) throws IngressoInvalidoException, NomeInvalidoException, QtdInvalidaException, SetorEsgotadoException {
         
-    	
+    	// tratativas com exceptions
     	if (ingresso == null) {
     	    throw new IngressoInvalidoException("Ingresso inválido!");
     	}
@@ -37,9 +38,16 @@ public class GerenciadorIngresso {
     	    throw new NomeInvalidoException("Nome não pode ser vazio!");
     	}
 
-    	if (ingresso.getQuantidade() <= 0 || ingresso.getQuantidade() > 10) {
-    	    throw new QtdInvalidaException("Quantidade deve ser entre 1 e 10!");
-    	}    
+    	if (ingresso.getQuantidade() <= 0) {
+    	    throw new QtdInvalidaException("Quantidade deve ser maior que 0!");
+    	}
+    	
+    	int vendidoNoSetor = contarIngressosPorSetor(ingresso.getSetor());
+    	
+    	if (vendidoNoSetor + ingresso.getQuantidade() > ingresso.getSetor().getLimiteIngresso()) {
+    		throw new SetorEsgotadoException("Setor esgotado!"); 
+    	}
+    	
     	
 	   ingresso.setCodigo(++prox);
 	   ingressos.add(ingresso);
@@ -68,6 +76,19 @@ public class GerenciadorIngresso {
         gerenciadorArquivo.exportarTxt(ingressos, "relatorio.txt");
     }
     
+    
+    // método auxiliar para contagem dos ingressos por setor
+    private int contarIngressosPorSetor(SetorEnum setor) {
+        int total = 0;
+
+        for (Ingresso i : ingressos) {
+            if (i.getSetor() == setor) {
+                total += i.getQuantidade();
+            }
+        }
+
+        return total;
+    }
 }
 
     
