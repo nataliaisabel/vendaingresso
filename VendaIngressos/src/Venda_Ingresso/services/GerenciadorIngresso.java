@@ -27,7 +27,7 @@ public class GerenciadorIngresso {
         carregarDados();
     }
     
-    public boolean comprarIngresso(Ingresso ingresso) throws IngressoInvalidoException, NomeInvalidoException, QtdInvalidaException, SetorEsgotadoException {
+    public synchronized boolean comprarIngresso(Ingresso ingresso) throws IngressoInvalidoException, NomeInvalidoException, QtdInvalidaException, SetorEsgotadoException {
         
     	// tratativas com exceptions
     	if (ingresso == null) {
@@ -50,6 +50,9 @@ public class GerenciadorIngresso {
     	
     	
 	   ingresso.setCodigo(++prox);
+	   
+	   ingresso.setThreadOrigem(Thread.currentThread().getName());
+	   
 	   ingressos.add(ingresso);
 	
 	    return true;
