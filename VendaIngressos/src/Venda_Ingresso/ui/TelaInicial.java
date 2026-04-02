@@ -23,19 +23,22 @@ public class TelaInicial extends JDialog {
     private JPanel painelFundo;
     private JButton btnComprar;
     private JButton btnGerarRelatorio;
+    private JButton btnTesteThreads;
     
      
-    private GerenciadorIngresso gerenciador = new GerenciadorIngresso();
-   
+    private GerenciadorIngresso gerenciador;
     
-    public TelaInicial() {
-        criarComponentesTela();  
+    public TelaInicial(GerenciadorIngresso gerenciadorIngresso) {
+    	this.gerenciador = gerenciadorIngresso;
+    	criarComponentesTela();
     }
      
     
     private void criarComponentesTela() {
+    	// criação dos botões
         btnComprar = new JButton("Comprar Ingresso");
         btnGerarRelatorio = new JButton("Gerar Relatório");
+        
         
         btnComprar.addActionListener((e) -> {           
            JanelaCadastroIngresso janelaCadastroIngresso = new JanelaCadastroIngresso(gerenciador);

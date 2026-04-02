@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import Venda_Ingresso.enums.SetorEnum;
+
 
 /**
  *
@@ -20,11 +22,23 @@ public class Ingresso implements Serializable {
     
     private int codigo;
     private String nome;
-    private String setor;
+    private SetorEnum setor;
     private double valor;
     private int quantidade;
     private double valorTotal;
     private String dataHora;
+    
+    // uso de threads
+    private transient String threadOrigem;
+    
+    public String getThreadOrigem() {
+        return threadOrigem;
+    }
+
+    public void setThreadOrigem(String threadOrigem) {
+        this.threadOrigem = threadOrigem;
+    }
+    
 
     // construtor
     public Ingresso() {
@@ -55,11 +69,11 @@ public class Ingresso implements Serializable {
         this.quantidade = quantidade;
     }
 
-    public String getSetor() {
+    public SetorEnum getSetor() {
         return setor;
     }
 
-    public void setSetor(String setor) {
+    public void setSetor(SetorEnum setor) {
         this.setor = setor;
     }
 
@@ -120,10 +134,5 @@ public class Ingresso implements Serializable {
             return false;
         }
         return true;
-    }
-    
-    
-    
-    
-    
+    } 
 }

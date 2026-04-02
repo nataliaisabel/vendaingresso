@@ -20,7 +20,7 @@ public class CompradorRunnable implements Runnable {
     @Override
     public void run() {
 
-        try {
+    	try {
             Thread.sleep(50);
 
             Ingresso ingresso = new Ingresso();
@@ -30,12 +30,10 @@ public class CompradorRunnable implements Runnable {
 
             gerenciador.comprarIngresso(ingresso);
 
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return;
+            System.out.println(nomeComprador + " comprou ingresso!");
 
         } catch (Exception e) {
-            System.out.println("Erro na compra: " + e.getMessage());
+            System.out.println(nomeComprador + " NÃO conseguiu: " + e.getMessage());
         }
 }
 }

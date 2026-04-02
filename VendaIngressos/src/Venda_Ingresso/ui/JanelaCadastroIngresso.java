@@ -78,7 +78,7 @@ public class JanelaCadastroIngresso extends JDialog {
        
         btnVoltarTelaInicial.addActionListener((e) -> {
             setVisible(false);
-            new TelaInicial();
+            new TelaInicial(gerenciador);
         });
         
         lblNome = new JLabel("Nome:");       
